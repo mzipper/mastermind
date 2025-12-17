@@ -12,6 +12,7 @@ function App() {
   const cols = 4;
 
   const [isGameOver, setIsGameOver] = useState(false);
+  const [isResettingBoard, setIsResettingBoard] = useState(false);
 
   const createCode = () => {
     const codeArray = [];
@@ -188,21 +189,43 @@ function App() {
     setActiveRow(activeRow + 1);
   };
 
+  const handleNewGameClick = () => {
+    setIsResettingBoard(true);
+
+    for (let i = 0; i < boardArray.length; i++) {
+      const row = boardArray[i];
+      for (let g = 0; g < row.guess.length; g++) {
+        row.guess[g] = getColorFromNum(0);
+      }
+      for (let r = 0; r < row.result.length; r++) {
+        row.result[r] = 0;
+      }
+    }
+
+    setActiveRow(0);
+    setSelectedColor(getColorFromNum(1));
+    setCode(createCode());
+
+    setIsGameOver(false);
+    setIsResettingBoard(false);
+  };
+
   return (
     <div className={css(styles.container)}>
-      <div style={{ display: "flex", flexDirection: "row" }}>
-        <div>Selected Color: {selectedColor.toUpperCase()}</div>
-        <div
-          style={{
-            backgroundColor: selectedColor,
-            width: 25,
-            height: 15,
-            marginLeft: 10,
-          }}
-        ></div>
-      </div>
-
-      {isGameOver && (
+      {!isGameOver && (
+        <div style={{ display: "flex", flexDirection: "row" }}>
+          <div>Selected Color: {selectedColor.toUpperCase()}</div>
+          <div
+            style={{
+              backgroundColor: selectedColor,
+              width: 25,
+              height: 15,
+              marginLeft: 10,
+            }}
+          ></div>
+        </div>
+      )}
+      {isGameOver && isResettingBoard === false && (
         <div
           className={css(styles.guessRow)}
           style={{
@@ -232,6 +255,17 @@ function App() {
               );
             })}
           </div>
+        </div>
+      )}
+      {isGameOver && isResettingBoard === false && (
+        <div style={{ marginBottom: 20 }}>
+          <Button
+            variant="outlined"
+            style={{ color: "cornflowerblue", width: 200 }}
+            onClick={() => handleNewGameClick()}
+          >
+            New Game
+          </Button>
         </div>
       )}
       <BoardGuesses
