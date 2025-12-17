@@ -2,7 +2,7 @@ import { StyleSheet, css } from "aphrodite";
 import Button from "@mui/material/Button";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import ToggleButton from "@mui/material/ToggleButton";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 function App() {
   const [selectedColor, setSelectedColor] = useState("red");
@@ -12,7 +12,6 @@ function App() {
   const cols = 4;
 
   const [isGameOver, setIsGameOver] = useState(false);
-  const [code, setCode] = useState([]);
 
   const createCode = () => {
     const codeArray = [];
@@ -25,6 +24,8 @@ function App() {
     return codeArray;
   };
 
+  const [code, setCode] = useState(createCode());
+
   const initializeBoard = () => {
     const resultNum = 2;
 
@@ -35,10 +36,6 @@ function App() {
   };
 
   const [boardArray, setBoardArray] = useState(initializeBoard);
-
-  useEffect(() => {
-    setCode(createCode());
-  }, []);
 
   const handleClick = (event, value) => {
     setSelectedColor(value || selectedColor);
