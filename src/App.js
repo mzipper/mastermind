@@ -209,7 +209,7 @@ function App() {
         <div
           className={css(styles.guessRow)}
           style={{
-            marginBottom: "20px",
+            marginBottom: "10px",
           }}
         >
           <div
@@ -327,16 +327,28 @@ function BoardGuesses({
 
     return (
       <div key={index} className={css(styles.guessRow)}>
-        <div className={css(styles.gueses)}>
+        <div
+          className={css(styles.gueses)}
+          style={
+            index === activeRow && !isGameOver
+              ? { boxShadow: "0 0 0 3px red inset" }
+              : {}
+          }
+        >
           {row.guess.map((guess, innerIndex) => {
             if (index === activeRow && !isGameOver) {
               return (
                 <div key={innerIndex} className={css(styles.guessSquares)}>
-                  <Button
+                  <div
                     className={css(styles.guessButton)}
-                    style={{ backgroundColor: guess, color: "white" }}
+                    style={{
+                      backgroundColor: guess,
+                      color: "white",
+                      cursor: "pointer",
+                      boxShadow: "0 0 15px white",
+                    }}
                     onClick={() => handleGuessClick(innerIndex)}
-                  ></Button>
+                  ></div>
                 </div>
               );
             } else {
@@ -420,40 +432,40 @@ const styles = StyleSheet.create({
   },
   guessSquares: {
     display: "flex",
-    height: 70,
-    width: 70,
+    height: 60,
+    width: 60,
     margin: 5,
     backgroundColor: "tan",
   },
   guessButton: {
     margin: "auto",
-    width: 60,
-    height: 60,
+    width: 50,
+    height: 50,
     borderRadius: 50,
   },
   resultSquares: {
     display: "flex",
-    height: 40,
-    width: 40,
-    margin: 5,
+    height: 30,
+    width: 30,
+    margin: "5px 3.5px",
     backgroundColor: "tan",
   },
   resultButton: {
     margin: "auto",
-    width: 30,
-    height: 30,
+    width: 22,
+    height: 22,
     borderRadius: 50,
   },
   choiceSquares: {
     display: "flex",
-    height: 140,
-    width: 140,
+    height: 130,
+    width: 130,
     margin: 5,
   },
   choiceButton: {
     margin: "auto",
-    width: 100,
-    height: 100,
+    width: 90,
+    height: 90,
     borderRadius: 50,
   },
 });
